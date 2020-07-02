@@ -1,4 +1,4 @@
 # Winglessentials
  Making custom essentials commands but only the ones we need
 
-USING ECLIPSE. Ask WinglessWhistle for the exact files being used.
+USING ECLIPSE. Files that are used... ONLY THESE FILES - https://bit.ly/winglessentials-files
