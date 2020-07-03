@@ -1,0 +1,16 @@
+name: FirstPlugin
+version: ${project.version}
+main: me.andrey.firstplugin.FirstPlugin
+api-version: 1.13
+authors: [andrey]
+description: This is my first plugin
+commands:
+  setWaypoint:
+    description: Set a waypoint
+  clearWaypoint:
+    description: Clear the waypoint
+  getWaypoint:
+    description: Get your waypoint
+    aliases: "getwaypoints"
+  damage:
+    description: Damage your tool
