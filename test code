@@ -34,7 +34,7 @@ public class Main extends JavaPlugin {
 			}
 			else {
 				//console (not player)
-				sender.sendMessage("Console Text. Only visable by using command through console.");
+				sender.sendMessage("Hello console user!");
 				return true;
 			}
 		}
