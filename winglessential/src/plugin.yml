@@ -24,4 +24,4 @@ commands:
     usage: /<command> <speed>
   weping:
     description: PING!
-    usage: /<command> <speed>
+    usage: /<command>
