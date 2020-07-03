@@ -1,0 +1,43 @@
+package network.battlecraft.ping;
+
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
+
+public class Main extends JavaPlugin {
+
+	@Override
+	public void onEnable() {
+		//server on
+	}
+	
+	@Override
+	public void onDisable() {
+		//server off
+	}
+	
+	// /ping = response of "pong"
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if (label.equalsIgnoreCase("ping")) {
+			if (sender instanceof Player) {
+				//player (not console)
+				Player player = (Player) sender;
+				if (player.hasPermission("winglessentials.ping")) { 
+					player.sendMessage(ChatColor.LIGHT_PURPLE+""+ChatColor.BOLD+"Pong");
+					player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&ePing Ponged!"));
+					return true;
+				}
+				player.sendMessage(ChatColor.DARK_RED+""+ChatColor.BOLD+"You don't Have permission to use this!");
+				return true;
+			}
+			else {
+				//console (not player)
+				sender.sendMessage("Console Can NOT be Ping Checked.");
+				return true;
+			}
+		}
+		return false;
+	}
+}
