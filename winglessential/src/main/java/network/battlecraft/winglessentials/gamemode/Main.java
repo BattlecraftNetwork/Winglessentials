@@ -80,7 +80,11 @@ public final class Main extends JavaPlugin {
 				
 			case "wespd":
 				if (player.hasPermission("we.flight.wespd")) {
-					player.setFlySpeed(Float.parseFloat(args[0]) / 10);
+					int value = (int) Float.parseFloat(args[0]);
+					if ((value < 1) || (value > 10)) {
+						player.sendMessage(ChatColor.RED+""+ChatColor.BOLD+"Speed parameter outside command bounds!");
+						player.sendMessage(ChatColor.RED+""+ChatColor.BOLD+"Must be between 1 and 10!");
+					} else { player.setFlySpeed((float)value / 10); }
 				} else { noPermissionMessage(player); }
 				return true;
 				

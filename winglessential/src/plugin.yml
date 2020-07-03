@@ -1,10 +1,27 @@
 main: network.battlecraft.winglessesentials.gamemode.Main
 name: WE-Gamemode
 version: 1.0
-author: WinglessWhistle
+author: Techmokid,WinglessWhistle, and PhazorTV
 
 commands:
-  gmc:
-  gma:
-  gms:
-  gmsp:
+  wegmc:
+    description: This puts you into creative mode
+    usage: /<command>
+  wegma:
+    description: This puts you into adventure mode
+    usage: /<command>
+  wegms:
+    description: This puts you into survival mode
+    usage: /<command>
+  wegmsp:
+    description: This puts you into spectator mode
+    usage: /<command>
+  wefly:
+    description: This enables/disables flight mode
+    usage: /<command>
+  wespd:
+    description: This changes the flight speed used in the "/wefly" command. Speed is between 1 and 10
+    usage: /<command> <speed>
+  weping:
+    description: PING!
+    usage: /<command> <speed>
