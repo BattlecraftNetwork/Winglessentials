@@ -62,7 +62,7 @@ public final class Main extends JavaPlugin {
 				return true;
 				
 			case "wefly":
-				if (player.hasPermission("we.gamemode.fly")) { 
+				if (player.hasPermission("we.flight.fly")) { 
 					//player.setGameMode(GameMode.SURVIVAL);
 					boolean flightClearance = !player.getAllowFlight();
 					player.setAllowFlight(flightClearance);
@@ -79,12 +79,19 @@ public final class Main extends JavaPlugin {
 				return true;
 				
 			case "wespd":
-				if (player.hasPermission("we.gamemode.wespd")) {
+				if (player.hasPermission("we.flight.wespd")) {
 					player.setFlySpeed(Float.parseFloat(args[0]) / 10);
 				} else { noPermissionMessage(player); }
 				return true;
+				
+			case "weping":
+                if (player.hasPermission("we.misc.ping")) { 
+                    player.sendMessage(ChatColor.LIGHT_PURPLE+""+ChatColor.BOLD+"Ping");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&ePong"));
+                } else { noPermissionMessage(player); }
+				return true;
 		}
-	
+		
 		return false;
 	}
 	
