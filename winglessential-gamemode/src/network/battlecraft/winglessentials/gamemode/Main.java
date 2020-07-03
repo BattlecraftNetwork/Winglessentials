@@ -17,13 +17,13 @@ public class Main extends JavaPlugin {
 	
 	//@Override
 	//public void onEnable() {
-	//	//basically when server starts
-	//	PluginManager pm = getServer().getPluginManager();
+	//	  //basically when server starts
+	//	  PluginManager pm = getServer().getPluginManager();
     //    Server plugin = RolePlay.getPlugin(RolePlay.class).getServer();
 	
     //    pm.registerEvents(this, this);
     //
-    //    getLogger().info("Role Play Plugin Successfully Booted!");
+    //    getLogger().info("Plugin Successfully Booted!");
 	//}
 	
 	@Override
@@ -33,25 +33,26 @@ public class Main extends JavaPlugin {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if (!(sender instanceof Player)) {
+			//If sender is console
+			sender.sendMessage("Console Users Don't Need Gamemode!");
+			return true;
+		}
+		
+		Player player = (Player) sender;
 		if (label.equalsIgnoreCase("wegmc")) {
-			if (sender instanceof Player) {
-				//player (not console)
-				Player player = (Player) sender;
-				if (player.hasPermission("we.gamemode.gmc")) { 
-					player.setGameMode(GameMode.CREATIVE);
-					player.sendMessage(ChatColor.translateAlternateColorCodes((char) 0, "Gamemode Changed To Creative!"));
-					return true;
-				}
-					player.sendMessage(ChatColor.DARK_RED+""+ChatColor.BOLD+"You don't Have permission to use this!");
-					return true;
-			} else {
-				//console (not player)
-				sender.sendMessage("Console Users Don't Need Gamemode!");
+			if (player.hasPermission("we.gamemode.gmc")) { 
+				player.setGameMode(GameMode.CREATIVE);
+				player.sendMessage(ChatColor.translateAlternateColorCodes((char) 0, "Gamemode Changed To Creative!"));
 				return true;
-			}
+			} else { noPermissionMessage(player); return true; }
 		}
 	
 		return false;
+	}
+	
+	public void noPermissionMessage(Player p) {
+		p.sendMessage(ChatColor.DARK_RED+ChatColor.BOLD+"You don't Have permission to use this!");
 	}
 	
 	public void sendGlobalMessage(String msg) {sendGlobalMessage(msg,false);}
