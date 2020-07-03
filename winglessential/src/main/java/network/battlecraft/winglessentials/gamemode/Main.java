@@ -9,40 +9,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Main extends JavaPlugin {
+	ServerTracker st;
+	
 	@Override
 	public void onEnable() {
-		//server on
-		
-		//This prevents people flying on the server from being kicked if you haven't set it in server.properties
-		
-		//((CraftServer) plugin.getServer()).getHandle().getServer().setAllowFlight(true);
-		
-		//This is a sneaky copy-paste of another site on how to track tps
-		//getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-		//	long sec;
-		//	int ticks;
-		//	
-		//	@Override
-		//	public void run() {
-		//		sec = (System.currentTimeMillis() / 1000);
-		//		
-		//		if(second == sec) {
-		//			ticks++;
-		//		} else {
-		//			second = sec;
-		//			tps = (tps == 0 ? ticks : ((tps + ticks) / 2));
-		//			ticks = 0;
-		//			
-		//			System.out.print("TPS = " + tps);
-		//		}
-		//	}
-		//}, 20, 1);
+		st = new ServerTracker();
+		st.begin(getServer());
 	}
 	
 	@Override
 	public void onDisable() {
 		//server off
-		
+		getServer().getScheduler().cancelTasks(this);
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
