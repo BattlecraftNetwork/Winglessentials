@@ -12,6 +12,7 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		//server on
+		
 	}
 	
 	@Override
@@ -32,16 +33,22 @@ public class Main extends JavaPlugin {
 				}
 					player.sendMessage(ChatColor.DARK_RED+""+ChatColor.BOLD+"You don't Have permission to use this!");
 					return true;
+			} else {
+				//console (not player)
+				sender.sendMessage("Console Users Don't Need Gamemode!");
+				return true;
 			}
-					else {
-						//console (not player)
-						sender.sendMessage("Console Users Don't Need Gamemode!");
-						return true;
-					}
-				}
+		}
 	
-				return false;
+		return false;
 	}
+	
+	public void sendGlobalMessage(String msg) {sendGlobalMessage(msg,false);}
+    public void sendGlobalMessage(String msg, boolean showModName) {
+        for(Player p : Bukkit.getOnlinePlayers()) {
+            p.sendMessage("\"Role Play\"" + msg);
+        }
+    }
 }
 
 
