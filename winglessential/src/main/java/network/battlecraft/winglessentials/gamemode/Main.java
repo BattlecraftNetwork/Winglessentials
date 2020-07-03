@@ -1,5 +1,6 @@
 package network.battlecraft.winglessentials.gamemode;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -7,14 +8,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class Main extends JavaPlugin {
-
+public final class Main extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		//server on
 		
 		//This prevents people flying on the server from being kicked if you haven't set it in server.properties
-		((CraftServer) plugin.getServer()).getHandle().getServer().setAllowFlight(true);
+		
+		//((CraftServer) plugin.getServer()).getHandle().getServer().setAllowFlight(true);
 		
 		//This is a sneaky copy-paste of another site on how to track tps
 		//getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
@@ -52,7 +53,7 @@ public class Main extends JavaPlugin {
 		}
 		
 		Player player = (Player) sender;
-		switch label.toLowerCase() {
+		switch (label.toLowerCase()) {
 			case "wegmc":
 				if (player.hasPermission("we.gamemode.gmc")) { 
 					player.setGameMode(GameMode.CREATIVE);
@@ -74,7 +75,7 @@ public class Main extends JavaPlugin {
 				} else { noPermissionMessage(player); }
 				return true;
 				
-			case "wegmsp":
+			case "wegms":
 				if (player.hasPermission("we.gamemode.gms")) { 
 					player.setGameMode(GameMode.SURVIVAL);
 					player.sendMessage(ChatColor.translateAlternateColorCodes((char) 0, "Gamemode Changed To Survival!"));
@@ -85,14 +86,14 @@ public class Main extends JavaPlugin {
 			case "wefly":
 				if (player.hasPermission("we.gamemode.fly")) { 
 					//player.setGameMode(GameMode.SURVIVAL);
-					boolean flightClearance = !player.getAllowFlight​();
-					player.setAllowFlight​(flightClearance);
+					boolean flightClearance = !player.getAllowFlight();
+					player.setAllowFlight(flightClearance);
 					
 					String temp = "Disabled";
 					if (flightClearance) { temp = "Enabled"; }
 					player.sendMessage(ChatColor.translateAlternateColorCodes((char) 0, "Flying " + temp + "!"));
 				} else {
-					player.setAllowFlight​(false);
+					player.setAllowFlight(false);
 					player.setFlying(false);
 					noPermissionMessage(player);
 				}
@@ -101,7 +102,7 @@ public class Main extends JavaPlugin {
 				
 			case "wespd":
 				if (player.hasPermission("we.gamemode.wespd")) {
-					player.setFlySpeed((float)args[0] / 10);
+					player.setFlySpeed(Float.parseFloat(args[0]) / 10);
 				} else { noPermissionMessage(player); }
 				return true;
 		}
@@ -110,7 +111,7 @@ public class Main extends JavaPlugin {
 	}
 	
 	public void noPermissionMessage(Player p) {
-		p.sendMessage(ChatColor.DARK_RED+ChatColor.BOLD+"You don't Have permission to use this!");
+		p.sendMessage(ChatColor.DARK_RED + " " + ChatColor.BOLD + "You don't Have permission to use this!");
 	}
 	
 	public void sendGlobalMessage(String msg) {sendGlobalMessage(msg,false);}

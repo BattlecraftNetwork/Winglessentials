@@ -1,0 +1,10 @@
+main: network.battlecraft.winglessesentials.gamemode.Main
+name: WE-Gamemode
+version: 1.0
+author: WinglessWhistle
+
+commands:
+  gmc:
+  gma:
+  gms:
+  gmsp:
