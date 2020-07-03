@@ -1,5 +1,6 @@
 package network.battlecraft.winglessentials.gamemode;
 
+import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -9,12 +10,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Main extends JavaPlugin {
+	BanList bl;
 	ServerTracker st;
 	
 	@Override
 	public void onEnable() {
+		bl = Bukkit.getBanList(BanList.Type.NAME);
+		System.out.println("Plugin: 1");
 		st = new ServerTracker();
 		st.begin(getServer());
+		System.out.println("Plugin: 2");
 	}
 	
 	@Override
@@ -30,31 +35,36 @@ public final class Main extends JavaPlugin {
 			return true;
 		}
 		
+		String permission;
 		Player player = (Player) sender;
 		switch (label.toLowerCase()) {
 			case "wegmc":
-				if (player.hasPermission("we.gamemode.gmc")) { 
+				permission = "we.gamemode.gmc";
+				if (player.hasPermission(permission)) { 
 					player.setGameMode(GameMode.CREATIVE);
 					player.sendMessage(ChatColor.translateAlternateColorCodes((char) 0, "Gamemode Changed To Creative!"));
 				} else { noPermissionMessage(player); }
 				return true;
 				
 			case "wegma":
-				if (player.hasPermission("we.gamemode.gma")) { 
+				permission = "we.gamemode.gma";
+				if (player.hasPermission(permission)) { 
 					player.setGameMode(GameMode.ADVENTURE);
 					player.sendMessage(ChatColor.translateAlternateColorCodes((char) 0, "Gamemode Changed To Adventure!"));
 				} else { noPermissionMessage(player); }
 				return true;
 				
 			case "wegmsp":
-				if (player.hasPermission("we.gamemode.gmsp")) { 
+				permission = "we.gamemode.gmsp";
+				if (player.hasPermission(permission)) { 
 					player.setGameMode(GameMode.SPECTATOR);
 					player.sendMessage(ChatColor.translateAlternateColorCodes((char) 0, "Gamemode Changed To Spectator!"));
 				} else { noPermissionMessage(player); }
 				return true;
 				
 			case "wegms":
-				if (player.hasPermission("we.gamemode.gms")) { 
+				permission = "we.gamemode.gms";
+				if (player.hasPermission(permission)) {
 					player.setGameMode(GameMode.SURVIVAL);
 					player.sendMessage(ChatColor.translateAlternateColorCodes((char) 0, "Gamemode Changed To Survival!"));
 					return true;
@@ -62,9 +72,22 @@ public final class Main extends JavaPlugin {
 				return true;
 				
 			case "wefly":
-				if (player.hasPermission("we.flight.fly")) { 
-					//player.setGameMode(GameMode.SURVIVAL);
-					boolean flightClearance = !player.getAllowFlight();
+				permission = "we.flight.fly";
+				if (player.hasPermission(permission)) {
+					boolean flightClearance;
+					String state = args[0].toLowerCase();
+					
+					if ((state == "t") || (state == "true") || (state == "1")) {
+						flightClearance = true;
+					} else if ((state == "f") || (state == "false") || (state == "0")) {
+						flightClearance = false;
+					} else if (state == null) {
+						flightClearance = !player.getAllowFlight();
+					} else {
+						player.sendMessage(ChatColor.RED+""+ChatColor.BOLD+"Error: Invalid argument!");
+						return true;
+					}
+					
 					player.setAllowFlight(flightClearance);
 					
 					String temp = "Disabled";
@@ -79,7 +102,8 @@ public final class Main extends JavaPlugin {
 				return true;
 				
 			case "wespd":
-				if (player.hasPermission("we.flight.wespd")) {
+				permission = "we.flight.wespd";
+				if (player.hasPermission(permission)) {
 					int value = (int) Float.parseFloat(args[0]);
 					if ((value < 1) || (value > 10)) {
 						player.sendMessage(ChatColor.RED+""+ChatColor.BOLD+"Speed parameter outside command bounds!");
@@ -89,9 +113,53 @@ public final class Main extends JavaPlugin {
 				return true;
 				
 			case "weping":
-                if (player.hasPermission("we.misc.ping")) { 
+				permission = "we.misc.ping";
+                if (player.hasPermission(permission)) {
                     player.sendMessage(ChatColor.LIGHT_PURPLE+""+ChatColor.BOLD+"Ping");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&ePong"));
+                } else { noPermissionMessage(player); }
+				return true;
+				
+			case "weban":
+				permission = "we.punish.ban";
+                if (player.hasPermission(permission)) {
+                	String bumper = org.apache.commons.lang.StringUtils.repeat("\n", 35);
+                	player.kickPlayer(bumper + args[0] + bumper);
+                	bl.addBan(player.getName(),bumper + args[0] + bumper, null, null);
+                	
+                	for(Player p : Bukkit.getOnlinePlayers()) {
+                		if (player.hasPermission(permission)) {
+                			p.sendMessage(player.getName() + " has been banned from the server by " + player);
+                		}
+                    }
+                } else { noPermissionMessage(player); }
+				return true;
+				
+			case "wekick":
+				permission = "we.punish.kick";
+                if (player.hasPermission(permission)) {
+                	String bumper = org.apache.commons.lang.StringUtils.repeat("\n", 35);
+                	player.kickPlayer(bumper + args[0] + bumper);
+                	
+                	for(Player p : Bukkit.getOnlinePlayers()) {
+                		if (player.hasPermission(permission)) {
+                			p.sendMessage(player.getName() + " has been kicked from the server by " + player);
+                		}
+                    }
+                } else { noPermissionMessage(player); }
+				return true;
+				
+			case "wekickall":
+				permission = "we.punish.kickall";
+                if (player.hasPermission(permission)) {
+                	String bumper = org.apache.commons.lang.StringUtils.repeat("\n", 35);
+                	for(Player p : Bukkit.getOnlinePlayers()) {
+                		if (!p.isOp()) {
+                			p.kickPlayer(bumper + args[0] + bumper);
+                		} else {
+                			p.sendMessage("All non-OP players have been kicked by " + player);
+                		}
+                    }
                 } else { noPermissionMessage(player); }
 				return true;
 		}
