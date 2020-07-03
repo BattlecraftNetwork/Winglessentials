@@ -40,12 +40,40 @@ public class Main extends JavaPlugin {
 		}
 		
 		Player player = (Player) sender;
-		if (label.equalsIgnoreCase("wegmc")) {
-			if (player.hasPermission("we.gamemode.gmc")) { 
-				player.setGameMode(GameMode.CREATIVE);
-				player.sendMessage(ChatColor.translateAlternateColorCodes((char) 0, "Gamemode Changed To Creative!"));
-				return true;
-			} else { noPermissionMessage(player); return true; }
+		switch label.toLowerCase() {
+			case "wegmc":
+				if (player.hasPermission("we.gamemode.gmc")) { 
+					player.setGameMode(GameMode.CREATIVE);
+					player.sendMessage(ChatColor.translateAlternateColorCodes((char) 0, "Gamemode Changed To Creative!"));
+					return true;
+				} else { noPermissionMessage(player); return true; }
+				break;
+				
+			case "wegma":
+				if (player.hasPermission("we.gamemode.gma")) { 
+					player.setGameMode(GameMode.ADVENTURE);
+					player.sendMessage(ChatColor.translateAlternateColorCodes((char) 0, "Gamemode Changed To Adventure!"));
+					return true;
+				} else { noPermissionMessage(player); return true; }
+				break;
+				
+			case "wegmsp":
+				if (player.hasPermission("we.gamemode.gmsp")) { 
+					player.setGameMode(GameMode.SPECTATOR);
+					player.sendMessage(ChatColor.translateAlternateColorCodes((char) 0, "Gamemode Changed To Spectator!"));
+					return true;
+				} else { noPermissionMessage(player); return true; }
+				break;
+				
+			case "wegmsp":
+				if (player.hasPermission("we.gamemode.gms")) { 
+					player.setGameMode(GameMode.SURVIVAL);
+					player.sendMessage(ChatColor.translateAlternateColorCodes((char) 0, "Gamemode Changed To Survival!"));
+					return true;
+				} else { noPermissionMessage(player); return true; }
+				break;
+				
+			
 		}
 	
 		return false;
