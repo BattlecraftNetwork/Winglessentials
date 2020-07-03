@@ -15,6 +15,17 @@ public class Main extends JavaPlugin {
 		
 	}
 	
+	//@Override
+	//public void onEnable() {
+	//	//basically when server starts
+	//	PluginManager pm = getServer().getPluginManager();
+    //    Server plugin = RolePlay.getPlugin(RolePlay.class).getServer();
+	
+    //    pm.registerEvents(this, this);
+    //
+    //    getLogger().info("Role Play Plugin Successfully Booted!");
+	//}
+	
 	@Override
 	public void onDisable() {
 		//server off
