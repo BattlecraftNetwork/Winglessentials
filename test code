@@ -1,0 +1,43 @@
+package network.battlecraft.winglessentialstest;
+
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
+
+public class Main extends JavaPlugin {
+
+	@Override
+	public void onEnable() {
+		//basically when server starts
+	}
+	
+	@Override
+	public void onDisable() {
+		//server off
+	}
+	
+	// /truth = response of "Successful Text"
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if (label.equalsIgnoreCase("truth")) {
+			if (sender instanceof Player) {
+				//player (not console)
+				Player player = (Player) sender;
+				if (player.hasPermission("winglessentials.test.use")) { 
+					player.sendMessage(ChatColor.LIGHT_PURPLE+""+ChatColor.BOLD+"Successful Text");
+					player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&eIt Worked"));
+					return true;
+				}
+				player.sendMessage(ChatColor.DARK_RED+""+ChatColor.BOLD+"You don't Have permission to use this!");
+				return true;
+			}
+			else {
+				//console (not player)
+				sender.sendMessage("Console Text. Only visable by using command through console.");
+				return true;
+			}
+		}
+		return false;
+	}
+}
