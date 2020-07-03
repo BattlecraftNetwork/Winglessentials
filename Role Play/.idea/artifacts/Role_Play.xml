@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="Role Play">
-    <output-path>$PROJECT_DIR$/out/artifacts/</output-path>
-    <root id="archive" name="RolePlay.jar">
-      <element id="module-output" name="RolePlay" />
-    </root>
-  </artifact>
-</component>
