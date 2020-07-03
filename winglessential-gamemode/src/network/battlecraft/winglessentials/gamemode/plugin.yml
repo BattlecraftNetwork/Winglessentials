@@ -1,0 +1,7 @@
+main: network.battlecraft.winglessesentials.gamemode
+name: WE-Gamemode
+version: 1.0
+author: WinglessWhistle
+
+commands:
+  gmc:
