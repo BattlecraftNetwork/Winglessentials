@@ -1,5 +1,5 @@
-main: network.battlecraft.winglessesentials.gamemode.Main
-name: WE-Gamemode
+main: network.battlecraft.winglessentials.gamemode.Main
+name: WEGamemode
 version: 1.0
 author: Techmokid,WinglessWhistle, and PhazorTV
 
@@ -27,7 +27,7 @@ commands:
     usage: /<command>
   weban:
     description: Permanantly ban a player from the server
-    usage: /<command> <player> [time] [reason]
+    usage: /<command> <player> [reason] [expiryTime]
   wekick:
     description: Kick a player from the server
     usage: /<command> <player> [reason]

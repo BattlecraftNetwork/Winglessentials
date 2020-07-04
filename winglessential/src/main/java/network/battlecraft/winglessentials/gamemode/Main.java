@@ -1,5 +1,7 @@
 package network.battlecraft.winglessentials.gamemode;
 
+import java.util.Date;
+
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -10,16 +12,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Main extends JavaPlugin {
-	BanList bl;
 	ServerTracker st;
+	BanList bl;
 	
 	@Override
 	public void onEnable() {
 		bl = Bukkit.getBanList(BanList.Type.NAME);
-		System.out.println("Plugin: 1");
 		st = new ServerTracker();
-		st.begin(getServer());
-		System.out.println("Plugin: 2");
+		st.begin(getServer(),getName());
 	}
 	
 	@Override
@@ -75,16 +75,15 @@ public final class Main extends JavaPlugin {
 				permission = "we.flight.fly";
 				if (player.hasPermission(permission)) {
 					boolean flightClearance;
-					String state = args[0].toLowerCase();
 					
-					if ((state == "t") || (state == "true") || (state == "1")) {
-						flightClearance = true;
-					} else if ((state == "f") || (state == "false") || (state == "0")) {
-						flightClearance = false;
-					} else if (state == null) {
+					if (args.length == 0) {
 						flightClearance = !player.getAllowFlight();
+					} else if ((args[0].toLowerCase() == "t") || (args[0].toLowerCase() == "true") || (args[0].toLowerCase() == "1")) {
+						flightClearance = true;
+					} else if ((args[0].toLowerCase() == "f") || (args[0].toLowerCase() == "false") || (args[0].toLowerCase() == "0")) {
+						flightClearance = false;
 					} else {
-						player.sendMessage(ChatColor.RED+""+ChatColor.BOLD+"Error: Invalid argument!");
+						player.sendMessage(ChatColor.RED+""+ChatColor.BOLD+"Error: Invalid parameter: \"" + args[0] + "\"");
 						return true;
 					}
 					
@@ -102,8 +101,12 @@ public final class Main extends JavaPlugin {
 				return true;
 				
 			case "wespd":
-				permission = "we.flight.wespd";
+				permission = "we.flight.speed";
 				if (player.hasPermission(permission)) {
+					if (args.length == 0) {
+						player.sendMessage(ChatColor.RED+""+ChatColor.BOLD+"Must specify a speed!");
+						return true;
+					}
 					int value = (int) Float.parseFloat(args[0]);
 					if ((value < 1) || (value > 10)) {
 						player.sendMessage(ChatColor.RED+""+ChatColor.BOLD+"Speed parameter outside command bounds!");
@@ -123,13 +126,47 @@ public final class Main extends JavaPlugin {
 			case "weban":
 				permission = "we.punish.ban";
                 if (player.hasPermission(permission)) {
+                	String reason = null;
+                	String playerName = null;
+                	Date expiry = null;
                 	String bumper = org.apache.commons.lang.StringUtils.repeat("\n", 35);
-                	player.kickPlayer(bumper + args[0] + bumper);
-                	bl.addBan(player.getName(),bumper + args[0] + bumper, null, null);
+                	
+                	switch (args.length) {
+                		case 0:
+                			player.sendMessage(ChatColor.RED+""+ChatColor.BOLD+"Must specify a player!");
+                			return true;
+                		case 1:
+                			//Player was specified
+                			playerName = args[0];
+                		case 2:
+                			//Player and reason were specified
+                			playerName = args[0];
+                			reason = bumper + args[1] + bumper;
+                		case 3:
+                			//Player, reason and expiry date were specified
+                			playerName = args[0];
+                			reason = bumper + args[1] + bumper;
+                			//expiry = ;
+                	}
+                	
+                	Player result = null;
+                	for(Player p : Bukkit.getOnlinePlayers()) {
+                		if (p.getName() == playerName) {
+                			result = p;
+                		}
+                	}
+                	
+                	if (result == null) {
+                		player.sendMessage(ChatColor.BLUE+""+ChatColor.BOLD+"Could not find player!");
+                		return true;
+                	}
+                	
+                	result.kickPlayer(reason);
+                	bl.addBan(playerName,reason, expiry, null);
                 	
                 	for(Player p : Bukkit.getOnlinePlayers()) {
-                		if (player.hasPermission(permission)) {
-                			p.sendMessage(player.getName() + " has been banned from the server by " + player);
+                		if (p.hasPermission(permission)) {
+                			p.sendMessage(playerName + " has been banned from the server by " + player);
                 		}
                     }
                 } else { noPermissionMessage(player); }
@@ -138,6 +175,10 @@ public final class Main extends JavaPlugin {
 			case "wekick":
 				permission = "we.punish.kick";
                 if (player.hasPermission(permission)) {
+                	if (args.length == 0) {
+                		player.sendMessage(ChatColor.RED+""+ChatColor.BOLD+"Must specify a player!");
+                	}
+                	
                 	String bumper = org.apache.commons.lang.StringUtils.repeat("\n", 35);
                 	player.kickPlayer(bumper + args[0] + bumper);
                 	
@@ -152,6 +193,10 @@ public final class Main extends JavaPlugin {
 			case "wekickall":
 				permission = "we.punish.kickall";
                 if (player.hasPermission(permission)) {
+                	if (args.length == 0) {
+                		player.sendMessage(ChatColor.RED+""+ChatColor.BOLD+"Must specify a player!");
+                	}
+                	
                 	String bumper = org.apache.commons.lang.StringUtils.repeat("\n", 35);
                 	for(Player p : Bukkit.getOnlinePlayers()) {
                 		if (!p.isOp()) {
