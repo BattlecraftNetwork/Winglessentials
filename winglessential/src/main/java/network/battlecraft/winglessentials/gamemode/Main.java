@@ -78,13 +78,16 @@ public final class Main extends JavaPlugin {
 					
 					if (args.length == 0) {
 						flightClearance = !player.getAllowFlight();
-					} else if ((args[0].toLowerCase() == "t") || (args[0].toLowerCase() == "true") || (args[0].toLowerCase() == "1")) {
-						flightClearance = true;
-					} else if ((args[0].toLowerCase() == "f") || (args[0].toLowerCase() == "false") || (args[0].toLowerCase() == "0")) {
-						flightClearance = false;
 					} else {
-						player.sendMessage(ChatColor.RED+""+ChatColor.BOLD+"Error: Invalid parameter: \"" + args[0] + "\"");
-						return true;
+						String command = args[0].toLowerCase().replaceAll("[^A-Za-z0-9]", "");
+						if ((command == "t") || (command == "true") || (command == "1")) {
+							flightClearance = true;
+						} else if ((command == "f") || (command == "false") || (command == "0")) {
+							flightClearance = false;
+						} else {
+							player.sendMessage(ChatColor.RED+""+ChatColor.BOLD+"Error: Invalid parameter: \"" + args[0] + "\"");
+							return true;
+						}
 					}
 					
 					player.setAllowFlight(flightClearance);
@@ -111,7 +114,10 @@ public final class Main extends JavaPlugin {
 					if ((value < 1) || (value > 10)) {
 						player.sendMessage(ChatColor.RED+""+ChatColor.BOLD+"Speed parameter outside command bounds!");
 						player.sendMessage(ChatColor.RED+""+ChatColor.BOLD+"Must be between 1 and 10!");
-					} else { player.setFlySpeed((float)value / 10); }
+					} else {
+						player.setFlySpeed((float)value / 10);
+						player.sendMessage(ChatColor.translateAlternateColorCodes((char) 0, "Flying Speed updated to: " + value + "!"));
+					}
 				} else { noPermissionMessage(player); }
 				return true;
 				
