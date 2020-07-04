@@ -80,9 +80,9 @@ public final class Main extends JavaPlugin {
 						flightClearance = !player.getAllowFlight();
 					} else {
 						String command = args[0].toLowerCase().replaceAll("[^A-Za-z0-9]", "");
-						if ((command == "t") || (command == "true") || (command == "1")) {
+						if ((command.equalsIgnoreCase("t")) || (command.equalsIgnoreCase("true")) || (command.equalsIgnoreCase("1"))) {
 							flightClearance = true;
-						} else if ((command == "f") || (command == "false") || (command == "0")) {
+						} else if ((command.equalsIgnoreCase("f")) || (command.equalsIgnoreCase("false")) || (command.equalsIgnoreCase("0"))) {
 							flightClearance = false;
 						} else {
 							player.sendMessage(ChatColor.RED+""+ChatColor.BOLD+"Error: Invalid parameter: \"" + args[0] + "\"");
@@ -133,7 +133,6 @@ public final class Main extends JavaPlugin {
 				permission = "we.punish.ban";
                 if (player.hasPermission(permission)) {
                 	String reason = null;
-                	String playerName = null;
                 	Date expiry = null;
                 	String bumper = org.apache.commons.lang.StringUtils.repeat("\n", 35);
                 	
@@ -143,21 +142,20 @@ public final class Main extends JavaPlugin {
                 			return true;
                 		case 1:
                 			//Player was specified
-                			playerName = args[0];
                 		case 2:
                 			//Player and reason were specified
-                			playerName = args[0];
                 			reason = bumper + args[1] + bumper;
                 		case 3:
                 			//Player, reason and expiry date were specified
-                			playerName = args[0];
                 			reason = bumper + args[1] + bumper;
                 			//expiry = ;
+                		default:
+                			player.sendMessage(ChatColor.RED+""+ChatColor.BOLD+"Too many arguments!");
                 	}
                 	
                 	Player result = null;
                 	for(Player p : Bukkit.getOnlinePlayers()) {
-                		if (p.getName() == playerName) {
+                		if (p.getName().equalsIgnoreCase(args[0])) {
                 			result = p;
                 		}
                 	}
@@ -168,11 +166,11 @@ public final class Main extends JavaPlugin {
                 	}
                 	
                 	result.kickPlayer(reason);
-                	bl.addBan(playerName,reason, expiry, null);
+                	bl.addBan(args[0],reason, expiry, null);
                 	
                 	for(Player p : Bukkit.getOnlinePlayers()) {
                 		if (p.hasPermission(permission)) {
-                			p.sendMessage(playerName + " has been banned from the server by " + player);
+                			p.sendMessage(args[0] + " has been banned from the server by " + player);
                 		}
                     }
                 } else { noPermissionMessage(player); }
@@ -186,7 +184,12 @@ public final class Main extends JavaPlugin {
                 	}
                 	
                 	String bumper = org.apache.commons.lang.StringUtils.repeat("\n", 35);
-                	player.kickPlayer(bumper + args[0] + bumper);
+                	
+                	for(Player p : Bukkit.getOnlinePlayers()) {
+                		if (p.getName().equalsIgnoreCase(args[0])) {
+                			p.kickPlayer(bumper + args[0] + bumper);
+                		}
+                	}
                 	
                 	for(Player p : Bukkit.getOnlinePlayers()) {
                 		if (player.hasPermission(permission)) {
@@ -208,7 +211,7 @@ public final class Main extends JavaPlugin {
                 		if (!p.isOp()) {
                 			p.kickPlayer(bumper + args[0] + bumper);
                 		} else {
-                			p.sendMessage("All non-OP players have been kicked by " + player);
+                			p.sendMessage("All non-OP players have been kicked by " + player.getName());
                 		}
                     }
                 } else { noPermissionMessage(player); }
