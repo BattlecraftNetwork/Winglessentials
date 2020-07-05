@@ -1,6 +1,2 @@
 # Winglessentials
- Making custom essentials commands but only the ones we need
-
-USING ECLIPSE. Files that are used... ONLY THESE FILES - https://bit.ly/winglessentials-files
-
-https://discord.gg/BHmPMKn
+69 is a sex number
