@@ -1,0 +1,36 @@
+main: network.battlecraft.winglessentials.gamemode.Main
+name: Winglessentials
+version: 1.0
+author: Techmokid,WinglessWhistle, and PhazorTV
+
+commands:
+  wegmc:
+    description: This puts you into creative mode
+    usage: /<command>
+  wegma:
+    description: This puts you into adventure mode
+    usage: /<command>
+  wegms:
+    description: This puts you into survival mode
+    usage: /<command>
+  wegmsp:
+    description: This puts you into spectator mode
+    usage: /<command>
+  wefly:
+    description: This enables/disables flight mode
+    usage: /<command> [enabled]
+  wespd:
+    description: This changes the flight speed used in the "/wefly" command. Speed is between 1 and 10
+    usage: /<command> <speed>
+  weping:
+    description: PING!
+    usage: /<command>
+  weban:
+    description: Permanantly ban a player from the server
+    usage: /<command> <player> [reason] [expiryTime]
+  wekick:
+    description: Kick a player from the server
+    usage: /<command> <player> [reason]
+  wekickall:
+    description: Kick all non-OP players from the server
+    usage: /<command>
