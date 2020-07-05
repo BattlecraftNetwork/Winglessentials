@@ -1,2 +1,4 @@
 # Winglessentials
-69 is a sex number
+Custom creation of the popular Minecraft plugin "Essentials/EssentialsX". The recreation aims to have the most used commands of the original plugin as a custom alternative.
+
+Join the brand new Discord server for updates - https://bit.ly/winglessentials-discord
